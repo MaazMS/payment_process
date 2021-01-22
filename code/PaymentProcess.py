@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from code.validator import ValidateCardInfo
 
 
@@ -19,12 +19,13 @@ def ProcessPayment():
    security_code_info = ValidateCardInfo.security_code(security_code)
    amount_info = ValidateCardInfo.check_amount(amount)
 
-
    return '''Credit CardNumber: {}
-   cardholder: {}   
-   ExpirationDate:{} 
-   SecurityCode:{} 
-    Amount:{} '''.format(credit_card_number_info,card_holder_info, expiration_date_info, security_code_info, amount_info )
+      cardholder: {}   
+      ExpirationDate:{} 
+      SecurityCode:{} 
+       Amount:{} '''.format(credit_card_number_info, card_holder_info, expiration_date_info, security_code_info,
+                            amount_info)
+
 
 if __name__ == '__main__':
     app.run(debug= False)
