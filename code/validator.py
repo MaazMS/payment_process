@@ -1,4 +1,9 @@
 from datetime import datetime, date
+from code.exception import CreditCardNumberError,CardHolderError, ExpirationDateError, SecurityCodeError, AmountError
+from code.constants import PaymentGateways
+
+
+
 
 
 class ValidateCardInfo:
@@ -22,17 +27,19 @@ class ValidateCardInfo:
                 processing_card_no.append(int(card_no))
         check_card_no = int(rmv_last_digit) + sum(processing_card_no)
 
-        if check_card_no % 10 == 0:
-            print("it is valid credit card number")
-        else:
-            print("it is not valid credit card number")
-        return
+        if check_card_no % 10 != 0:
+            raise CreditCardNumberError("it is not valid credit card number", {card})
+
+        return card
 
     def card_holder(self):
 
-        cardholder_name = input("Enter card holder name\t")
+        cardholder_name = input("Enter cardholder name\t")
         if not cardholder_name.isalpha():
-            print("Enter card holder name as string")
+            raise CardHolderError("Enter card holder name as string")
+
+        return  cardholder_name
+
 
     def expiration_date(self):
 
@@ -41,21 +48,53 @@ class ValidateCardInfo:
         current_datetime = date.today()
 
         if card_date <= current_datetime:
-            print("DateTime, it cannot be in the past")
-        else:
-            print("Expiration Date is correct in card ")
+            raise ExpirationDateError("DateTime, it cannot be in the past", expiration_date)
+
+        return expiration_date
+
 
     def security_code(self):
 
         Sec_Code = input("Enter Security Code\t")
         if len(Sec_Code) != 3 or not Sec_Code.isdecimal():
-            print("Security Code should be 3 digits ")
-        else:
-            print("corect Security Code ")
+            raise SecurityCodeError("Security Code should be 3 digits ", Sec_Code)
+
+        return Sec_Code
 
     def check_amount(self):
 
         Amount = int(input("Enter amount\t"))
         if Amount < 0:
-            print("Enter positive amount ")
+            raise AmountError("Enter positive amount ")
+        else:
+            print("check paymentGeteway call")
+            # type_payment_Geteways(Amount)
+            ValidatePaymentGateways.type_payment_Geteways(Amount)
         return Amount
+
+
+# def type_payment_Geteways(Amount ):
+#     print("check paymentGeteway def type_payment_Geteways ")
+#     print(type(Amount))
+#     if Amount <= PaymentGateways.CHEAPPAYMENTGAYEWAY:
+#         print("CheapPaymentGateway")
+#     elif (Amount >= PaymentGateways.EXPENSIVEPAYMENTGAYEWAY) and (PaymentGateways.PREMIUMPAYMENTGAYEWAY <= Amount):
+#         print("ExpensivePaymentGateway")
+#     elif Amount >= PaymentGateways.PREMIUMPAYMENTGAYEWAY:
+#         print("PremiumPaymentGateway")
+#
+class ValidatePaymentGateways:
+
+    def type_payment_Geteways(Amount):
+
+       print("check paymentGeteway def type_payment_Geteways ")
+       print(type(Amount))
+       if Amount <= PaymentGateways.CHEAPPAYMENTGAYEWAY:
+           print("CheapPaymentGateway")
+       elif (Amount >= PaymentGateways.EXPENSIVEPAYMENTGAYEWAY) and  (PaymentGateways.PREMIUMPAYMENTGAYEWAY <= Amount):
+           print("ExpensivePaymentGateway")
+       elif Amount >= PaymentGateways.PREMIUMPAYMENTGAYEWAY:
+           print("PremiumPaymentGateway")
+
+obj = ValidateCardInfo()
+obj.check_amount()
