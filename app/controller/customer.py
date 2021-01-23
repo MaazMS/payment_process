@@ -1,6 +1,8 @@
 from datetime import datetime, date
-from code.exception import CreditCardNumberError, CardHolderError, ExpirationDateError, SecurityCodeError, AmountError
-from code.constants import PaymentGateways
+from app.exception import CreditCardNumberError, CardHolderError, ExpirationDateError, SecurityCodeError, AmountError
+from app.constants import PaymentGateways
+from app.External_geteway import BasePaymentGateway
+from app.External_geteway import CheapBasePaymentGateway, ExpensiveBasePaymentGateway, PremiumBasePaymentGateway
 
 
 class ValidateCardInfo:
@@ -47,9 +49,10 @@ class ValidateCardInfo:
 
     def security_code(self):
         sec_code = input("Enter Security Code\t")
-        if len(sec_code) != 3 or not sec_code.isdecimal():
-            raise SecurityCodeError("Security Code should be 3 digits ", sec_code)
-
+        if sec_code == None:
+            pass
+            if len(sec_code) != 3 or not sec_code.isdecimal():
+                raise SecurityCodeError("Security Code should be 3 digits ", sec_code)
         return sec_code
 
     def check_amount(self):
@@ -61,13 +64,16 @@ class ValidateCardInfo:
         return amount
 
 
-class ValidatePaymentGateways:
+class ValidatePaymentGateways(BasePaymentGateway):
 
-    def type_payment_geteways(self, amount):
+    def type_payment_geteways(amount):
         if amount <= PaymentGateways.CHEAPPAYMENTGAYEWAY.value:
-            print("CheapPaymentGateway")
+            CheapBasePaymentGateway()
         elif (amount >= PaymentGateways.EXPENSIVEPAYMENTGAYEWAY.value) and (
                 amount <= PaymentGateways.PREMIUMPAYMENTGAYEWAY.value):
-            print("ExpensivePaymentGateway")
+            ExpensiveBasePaymentGateway()
         elif amount >= PaymentGateways.PREMIUMPAYMENTGAYEWAY.value:
-            print("PremiumPaymentGateway")
+            PremiumBasePaymentGateway()
+
+# obj = ValidateCardInfo()
+# obj.check_amount()

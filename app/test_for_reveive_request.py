@@ -1,8 +1,11 @@
-from _datetime import datetime, date
+from datetime import datetime, date
+from app.PaymentGetways import PaymentGateways
+
 
 class ProcessPayment:
 
-    def creditcardnumber(self):
+
+    def credit_card_number(self):
 
         card = list(input("Enter card number\t").strip())
         rmv_last_digit =card.pop()
@@ -26,13 +29,13 @@ class ProcessPayment:
         else:
             print("it is not valid credit card number")
 
-    def cardholder(self):
+    def card_holder(self):
 
         cardholder_name  = input("Enter card holder name\t")
         if not cardholder_name.isalpha():
             print("Enter card holder name as string")
 
-    def expirationdate(self):
+    def expiration_date(self):
 
         expiration_date = input("Enter expiration date of card  ")
         card_date = datetime.strptime(expiration_date, "%Y-%m-%d").date()
@@ -43,7 +46,7 @@ class ProcessPayment:
         else:
             print("Expiration Date is correct in card ")
 
-    def securitycode(self):
+    def security_code(self):
 
         Sec_Code = input("Enter Security Code\t")
         if len(Sec_Code) != 3 or not Sec_Code.isdecimal():
@@ -57,9 +60,11 @@ class ProcessPayment:
         if Amount < 0 :
             print("Enter positive amount ")
 
+
 obj = ProcessPayment()
-obj.creditcardnumber()
-obj.cardholder()
-obj.expirationdate()
-obj.securitycode()
-obj.check_amount()
+# obj.credit_card_number()
+# obj.card_holder()
+# obj.expiration_date()
+# obj.security_code()
+# obj.check_amount()
+
