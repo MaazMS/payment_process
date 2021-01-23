@@ -20,7 +20,6 @@ class CheapBasePaymentGateway(BasePaymentGateway):
         print("CheapBasePaymentGateway")
         super(CheapBasePaymentGateway, self).__init__(repeat)
 
-
 class ValidatePaymentGateways(BasePaymentGateway):
 
     def type_payment_geteways(amount):
