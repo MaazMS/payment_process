@@ -1,11 +1,11 @@
 from datetime import datetime, date
-from app.exception import CreditCardNumberError, CardHolderError, ExpirationDateError, SecurityCodeError, AmountError
-from app.constants import PaymentGateways
-from app.External_geteway import BasePaymentGateway
-from app.External_geteway import CheapBasePaymentGateway, ExpensiveBasePaymentGateway, PremiumBasePaymentGateway
+from controller.exception import CreditCardNumberError, CardHolderError, ExpirationDateError, SecurityCodeError, AmountError
+from gateways.payment_geteways import ValidatePaymentGateways
+
 
 
 class ValidateCardInfo:
+
 
     def credit_card_number(self):
         card = list(input("Enter card number\t").strip())
@@ -62,18 +62,3 @@ class ValidateCardInfo:
         else:
             ValidatePaymentGateways.type_payment_geteways(amount)
         return amount
-
-
-class ValidatePaymentGateways(BasePaymentGateway):
-
-    def type_payment_geteways(amount):
-        if amount <= PaymentGateways.CHEAPPAYMENTGAYEWAY.value:
-            CheapBasePaymentGateway()
-        elif (amount >= PaymentGateways.EXPENSIVEPAYMENTGAYEWAY.value) and (
-                amount <= PaymentGateways.PREMIUMPAYMENTGAYEWAY.value):
-            ExpensiveBasePaymentGateway()
-        elif amount >= PaymentGateways.PREMIUMPAYMENTGAYEWAY.value:
-            PremiumBasePaymentGateway()
-
-# obj = ValidateCardInfo()
-# obj.check_amount()
