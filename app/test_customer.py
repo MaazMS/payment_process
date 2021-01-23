@@ -1,6 +1,6 @@
 from datetime import datetime, date
 from controller.exception import CreditCardNumberError, CardHolderError, ExpirationDateError, SecurityCodeError, AmountError
-from gateways.payment_geteways import ValidatePaymentGateways
+from base.gateways.payment_geteways import ValidatePaymentGateways
 
 
 
@@ -11,7 +11,7 @@ class ValidateCardInfo:
         card = list(input("Enter card number\t").strip())
         rmv_last_digit = card.pop()
         card.reverse()
-
+        print(card)
         processing_card_no = []
         for index, card_no in enumerate(card):
 
@@ -24,9 +24,11 @@ class ValidateCardInfo:
             else:
                 processing_card_no.append(int(card_no))
         check_card_no = int(rmv_last_digit) + sum(processing_card_no)
-
+        print(check_card_no)
         if check_card_no % 10 != 0:
             raise CreditCardNumberError("it is not valid credit card number", {card})
+        else:
+            print("This is valid credit card number")
 
         return card
 
@@ -62,3 +64,6 @@ class ValidateCardInfo:
         else:
             ValidatePaymentGateways.type_payment_geteways(amount)
         return amount
+
+obj = ValidateCardInfo()
+obj.credit_card_number()
