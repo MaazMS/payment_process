@@ -1,15 +1,14 @@
 from pydantic import BaseModel, validator
 from datetime import date
 from typing import Optional
-from base.gateways.payment_geteways import ValidatePaymentGateways
 
 
-class Customer(BaseModel):
+
+class CardDetails(BaseModel):
     card_number: str
     customer_name: str
     exp_date: date
     cvv: Optional [str] = None
-    amount: int
 
     @validator("card_number")
     def card_number_validate(cls, card_no ):
@@ -45,14 +44,14 @@ class Customer(BaseModel):
 
     @validator("cvv")
     def security_code(cls, sec_code):
-        assert sec_code.isdecimal(), "Enter security code should be digit"
-        assert len(sec_code) == 3, "Security Code should be equal 3 digits"
+        assert sec_code.isdecimal(), " Invalid security code "
+        assert len(sec_code) == 3, "Invalid security code "
         return sec_code
 
-    @validator("amount")
-    def check_amount(cls, amount):
-        if amount < 0:
-            raise ValueError("Enter positive amount ")
-        else:
-            ValidatePaymentGateways.type_payment_geteways(amount)
-        return amount
+    def get_card_details(self):
+        return {
+            "card_number": self.card_number,
+            "customer_name": self.customer_name,
+            "exp_date": self.exp_date,
+            "cvv": self.cvv,
+        }
