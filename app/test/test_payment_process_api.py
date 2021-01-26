@@ -1,10 +1,8 @@
 from app.view.views import app
 from flask import json
-from controller.exception import InvalidCardDetailsError, InvalidAmountError
-import pytest
-from unittest.mock import patch
 
-def test_card_successful():
+
+def test_payment_process_successful():
     response = app.test_client().post(
         '/process_payment/',
         data=json.dumps({
@@ -44,3 +42,30 @@ def test_invalid_amount():
         content_type='application/json',
     )
     assert response.status_code == 400
+
+
+def test_payment_failed():
+    response = app.test_client().post(
+        '/process_payment/',
+        data=json.dumps({
+            "credit_card_number": "5089630664001838",
+            "card_holder": "Maaz",
+            "expiration_date": "2021-02-02",
+            "security_code": "123",
+            "amount": 0}),
+        content_type='application',
+    )
+    assert response.status_code == 400
+
+def test_internal_server_error():
+    response = app.test_client().post(
+        '/process_payment/',
+        data=json.dumps({
+            "credit_card_number": "5089630664001838",
+            "card_holder": "Maaz",
+            "expiration_date": "2021-02-02",
+            "security_code": "123",
+            "amount": 0}),
+        content_type='application',
+    )
+    assert response.status_code == 500
