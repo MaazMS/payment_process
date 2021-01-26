@@ -2,10 +2,6 @@ class InvalidCardDetailsError(Exception):
     """ raise when Card details are not valid"""
 
 
-class RetryTransactionError(Exception):
-    """ raise when transaction retry more than its limit"""
-
-
 class PaymentFailed(Exception):
     """raise when transaction is failed """
 
