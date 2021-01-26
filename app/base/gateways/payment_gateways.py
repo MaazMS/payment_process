@@ -1,4 +1,4 @@
-from controller.exception import RetryTransactionError, PaymentGatewayNotAvailableError
+from controller.exception import PaymentGatewayNotAvailableError
 
 
 class CheapPaymentGateway:
@@ -27,15 +27,6 @@ class ExpensivePaymentGateway:
 
 
 class PremiumPaymentGateway:
-
-    def is_payment_failed(self, **kwargs):
-        repeat = 0
-        while repeat < 3:
-            try:
-                repeat += 1
-                break
-            except:
-                raise RetryTransactionError("Retry Transaction failed")
 
     def create_transaction(self, **kwargs):
         return True
