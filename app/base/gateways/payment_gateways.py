@@ -2,32 +2,38 @@ from controller.exception import PaymentGatewayNotAvailableError
 
 
 class CheapPaymentGateway:
-    repeat = 0
-
     def create_transaction(self, **kwargs):
-        return True
+        """
+        :param kwargs: This function take card details for transaction.
+        :return: Transaction successful
+        """
 
-    def is_available(self):
-        while self.repeat == 0:
-            CheapPaymentGateway.repeat += 1
-            break
-        return False
+        return True
 
 
 class ExpensivePaymentGateway:
-
     def create_transaction(self, **kwargs):
+        """
+        :param kwargs: This function take card details for transaction.
+        :return: Transaction successful if payment gateway is not available it create one transaction from cheap payment
+        gateway and if payment is failed it raise exception
+        """
         try:
             return True
         except PaymentGatewayNotAvailableError as e:
             # TODO: log(e)
-            raise PaymentGatewayNotAvailableError("Expensive PaymentGateway is unavailable at this moment")
+            raise PaymentGatewayNotAvailableError(
+                "Expensive PaymentGateway is unavailable at this moment"
+            )
         except Exception as e:
             raise e
 
 
 class PremiumPaymentGateway:
-
     def create_transaction(self, **kwargs):
-        return True
+        """
+        :param kwargs: This function take card details for transaction.
+        :return: Transaction successful if transaction is failed retry 3 transaction.
+        """
 
+        return True
