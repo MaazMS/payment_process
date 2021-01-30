@@ -1,6 +1,4 @@
-# payment process
-
-### Coding exercise:    
+# Coding exercise:    
 Write a Flask Web API with only 1 method called “ProcessPayment” that receives a request
 like this
 - CreditCardNumber (mandatory, string, it should be a valid credit card number)   
