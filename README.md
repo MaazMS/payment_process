@@ -22,7 +22,8 @@ The payment gateway that should be used to process each payment follows the next
     a) If the amount to be paid is less than £20, use CheapPaymentGateway.   
     b) If the amount to be paid is £21-500, use ExpensivePaymentGateway if available.   
     Otherwise, retry only once with CheapPaymentGateway.   
-    c) If the amount is > £500, try only PremiumPaymentGateway and retry up to 3 times in case payment does not get processed.    
+    c) If the amount is > £500, try only PremiumPaymentGateway and retry up to 3 times 
+    in case payment does not get processed.    
 Recommendations:   
 - The classes should be written in such way that they are easy to test.      
 - Write as many tests as you think is enough to be certain about your solution works    
