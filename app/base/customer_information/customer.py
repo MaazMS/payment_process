@@ -3,15 +3,19 @@ from datetime import date
 from typing import Optional
 
 
-
 class CardDetails(BaseModel):
     card_number: str
     customer_name: str
     exp_date: date
-    cvv: Optional [str] = None
+    cvv: Optional[str] = None
 
     @validator("card_number")
-    def card_number_validate(cls, card_no ):
+    def card_number_validate(cls, card_no):
+        """
+        :param card_no: This function take card number and check card number is valid or not.
+        :return:  It return valid card number and if card number is not validate it return valueError
+        """
+
         card = list(card_no)
         rmv_last_digit = card.pop()
         card.reverse()
@@ -32,11 +36,21 @@ class CardDetails(BaseModel):
 
     @validator("customer_name")
     def card_holder(cls, cardholder_name):
-        assert cardholder_name.isalpha(), 'cardholder name must be alphabet'
+        """
+        :param cardholder_name: This function take card holder name and validate the card holder name
+        :return: It return valid card holder name if card holder name is not valid it return assert error
+        """
+
+        assert cardholder_name.isalpha(), "cardholder name must be alphabet"
         return cardholder_name
 
     @validator("exp_date")
     def expiration_date(cls, expiration_date):
+        """
+        :param expiration_date: This function take card expiration date and validate the card expiration date
+        :return: It return valid card expiration date if card expiration date is not validate it return valueError
+        """
+
         current_datetime = date.today()
         if expiration_date <= current_datetime:
             raise ValueError(" expiration date cannot be in the past", expiration_date)
@@ -44,11 +58,21 @@ class CardDetails(BaseModel):
 
     @validator("cvv")
     def security_code(cls, sec_code):
+        """
+        :param sec_code: This function take card security code and validate the card security code
+        :return: It return valid card security code if card security code is not valid it return assert error
+        """
+
         assert sec_code.isdecimal(), " Invalid security code "
         assert len(sec_code) == 3, "Invalid security code "
         return sec_code
 
     def get_card_details(self):
+        """
+        :return: This function is return card details such as card number, customer name, expiration date,
+        security code
+        """
+
         return {
             "card_number": self.card_number,
             "customer_name": self.customer_name,
